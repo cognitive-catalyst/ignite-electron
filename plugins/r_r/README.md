@@ -63,7 +63,7 @@ The Fields to View selection menu will alter whether or not a field is displayed
 
 The Import CSV for GT button will allow you to select a single column csv of queries. This allows you to automatically step through a set of predetermined queries and ranking the results. This approach is highly recommended but the Query Text field is also editable for entering questions "on the fly".
 
-The Submit/Start/Next button will ask the next question to the collection/ranker. When pressed, the current rankings will be appended to output.csv in the ignite-electron-alpha folder. The ability to choose an output file will be added in a future release.
+The Submit/Start/Next button will ask the next question to the collection/ranker. When pressed, the current rankings will be appended to output.csv in the ignite-electron- folder. The ability to choose an output file will be added in a future release.
 
 ### Basic instructions
 1. Select a Cluster and collection (optionally, select a ranker)
@@ -75,14 +75,14 @@ The Submit/Start/Next button will ask the next question to the collection/ranker
 7. Click Next
 8. Repeat from step 6 until finished.
 
-The results are recorded in output.csv in the ignite-electron-alpha folder. It is recommended that you rename/move the file after each session.
+The results are recorded in output.csv in the ignite-electron- folder. It is recommended that you rename/move the file after each session.
 
 ## Testing Page
 Not yet implemented.
 
 #Troubleshooting
 Problem: I've created a project but when I click the project overview page nothing shows up.
-Solution: The problem is probably due to not correctly installing the plugin. You are likely lacking some node modules. Navigate to ignite-electron-alpha/plugings/r_r and run the command npm install.
+Solution: The problem is probably due to not correctly installing the plugin. You are likely lacking some node modules. Navigate to ignite-electron-/plugings/r_r and run the command npm install.
 
 For other issues the developer console can be a valuable tool. Under View->Toggle Developer Tools. This should open the developer tools on the side of the window. In the tab at the top of this pane, choose console. There will usually be an output here if an error has occurred.
 

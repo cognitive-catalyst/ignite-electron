@@ -1,0 +1,15 @@
+{
+  "name": "ignite-plugin-rrtool",
+  "version": "1.0.0",
+  "description": "initial test",
+  "main": "r_rConfigModel.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Andrew Ayres <afayres@us.ibm.com>",
+  "license": "MIT",
+  "dependencies": {
+    "csv" : "latest",
+    "request":"latest"
+  }
+}

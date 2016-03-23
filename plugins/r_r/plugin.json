@@ -1,0 +1,9 @@
+{
+  "shortName": "r&rtool",
+  "name": "Retrieve and Rank Tool",
+  "description": "Create a new project for R&R",
+  "author": "Andrew Ayres (afayres@us.ibm.com)",
+  "icon": "https://www.ibm.com/smarterplanet/us/en/ibmwatson/developercloud/images/service-icons/RetrieveandRank.svg",
+  "projectView": "plugins/r_r/r_rProjectView",
+  "config": "plugins/r_r/r_rConfigView"
+}

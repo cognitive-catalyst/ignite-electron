@@ -1,0 +1,165 @@
+<link rel="stylesheet" href="../../plugins/r_r/r_r.css">
+<div id="plugins/r_r/r_rProjectView" data-vm="plugins/r_r/r_rProjectModel">
+  <!-- Nav tabs -->
+  <ul class="nav nav-tabs" role="tablist">
+    <li role="presentation" class="active"><a href="#config" aria-controls="home" role="tab" data-toggle="tab">Configuration</a></li>
+    <li role="presentation"><a href="#solrView" aria-controls="solrView" role="tab" data-toggle="tab">Solr Architecture</a></li>
+    <li role="presentation"><a href="#messages" aria-controls="messages" role="tab" data-toggle="tab">Training</a></li>
+    <li role="presentation"><a href="#settings" aria-controls="settings" role="tab" data-toggle="tab">Testing</a></li>
+  </ul>
+
+  <!-- Tab panes -->
+  <div class="tab-content">
+    <!-- configuration pane -->
+    <div role="tabpanel" class="tab-pane active" id="config">
+      <div class="panel-group">
+        <div class="panel panel-primary">
+          <div class="panel-heading" role="tab">
+            <h4 class="panel-title">Project Details</h4>
+          </div>
+          <div class="panel-body">
+            <div class="col-xs-6">
+              <dl class="dl-horizontal">
+                <dt>Name</dt>
+                <dd id="projectName"></dd>
+                <dt>Bluemix ID</dt>
+                <dd id="bluemixID"></dd>
+                <dt>Bluemix EndPoint</dt>
+                <dd id="bluemixEndPoint"></dd>
+                <dt>Bluemix Org</dt>
+                <dd id="bluemixOrg"></dd>
+                <dt>Bluemix Space</dt>
+                <dd id="bluemixSpace"></dd>
+              </dl>
+            </div>
+            <div class="col-xs-6">
+              <dl class="dl-horizontal">
+                <dt>R&R Service</dt>
+                <dd id="r_rServiceName"></dd>
+                <dt>R&R Service Key</dt>
+                <dd id="r_rServiceKeyName"></dd>
+                <dt>R&R Service Plan</dt>
+                <dd id="r_rServicePlanName"></dd>
+              </dl>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Training Tab -->
+    <div role="tabpanel" class="tab-pane" id="solrView">
+      <div role="tabpanel" class="tab-pane active" id="config">
+        <div class="panel panel-primary">
+          <div class="panel-heading" role="tab">
+            <h4 class="panel-title pull-left">Solr Clusters</h4>
+		    <button class="btn btn-primary pull-right" data-bind="click: provisionCluster">
+		      <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+		    </button>
+		    <input type="text" class=" pull-right small-input-box form-control" id="solrClusterName" placeholder="ClusterName">
+		    <select class = "pull-right form-control cluster-size" id="clusterSize">
+		      <option selected="selected" disabled="disabled">Size</option>
+		      <option value="1">1</option>
+		      <option value="2">2</option>
+		      <option value="3">3</option>
+		      <option value="4">4</option>
+		  	  <option value="5">5</option>
+		      <option value="6">6</option>
+		      <option value="7">7</option>
+  		    </select>
+		  </div>
+		  <div class="panel-body">
+		  	<div class="btn-group" id="clusterButtonGroup"></div>
+		  </div>
+        </div>
+        
+        <div class="panel panel-primary">
+          <div class="panel-heading" role="tab">
+            <h4 class="panel-title pull-left">Configurations for Cluster</h4>
+		    <button class="btn btn-primary pull-right" data-bind="click: provisionConfiguration">
+		      <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+		    </button>
+	  	    <input type="text" class="small-input-box pull-right form-control" id="solrConfigName" placeholder="ConfigurationName">    
+		  </div>
+		  <div class="panel-body" id="clusterButtons">
+		   <div class="btn-group" id="configButtonGroup"></div>
+		  </div>
+        </div>
+        
+        
+        <div class="panel panel-primary">
+          <div class="panel-heading" role="tab">
+            <h4 class="panel-title pull-left">Collections for Cluster</h4>
+		    <button class="btn btn-primary pull-right" data-bind="click: provisionCollection">
+		      <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+		    </button>
+		    <input type="text" class="small-input-box pull-right form-control" id="solrCollectionName" placeholder="CollectionName">
+		  </div>
+		  <div class="panel-body">
+		   <div class="btn-group" id="collectionButtonGroup"></div>
+		  </div>
+        </div>
+        
+        <div class="panel panel-primary">
+          <div class="panel-heading" role="tab">
+            <h4 class="panel-title pull-left">Rankers for Service</h4>
+		    <button class="btn btn-primary pull-right" data-bind="click: provisionRanker">
+		      <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+		    </button>
+		    <input type="text" class="small-input-box pull-right form-control" id="solrRankerName" placeholder="RankerName">
+		  </div>
+		  <div class="panel-body">
+		   <div class="btn-group" id="rankerButtonGroup"></div>
+		  </div>
+        </div>
+        
+        <div id="statusSection">
+        </div>
+        
+      </div>
+    </div>
+
+    <div role="tabpanel" class="tab-pane" id="messages">
+      <div class="dropdown">
+    	<div class="btn-group">
+  		  <button class="dropdown-toggle" type="button" data-toggle="dropdown" id="clusterMenuButton">Solr Cluster
+		  <span class="caret"></span></button>
+          <ul class="dropdown-menu" id="clusterMenu">
+  		  </ul>
+  		</div>
+  		<div class="btn-group">
+  		  <button class="dropdown-toggle" type="button" data-toggle="dropdown" id="collectionMenuButton">Collections
+		  <span class="caret"></span></button>
+          <ul class="dropdown-menu" id="collectionMenu">
+  		  </ul>
+  		</div>
+  		<div class="btn-group">
+  		  <button class="dropdown-toggle" type="button" data-toggle="dropdown" id="rankerMenuButton">Rankers
+		  <span class="caret"></span></button>
+          <ul class="dropdown-menu" id="rankerMenu">
+  		  </ul>
+  		</div>
+  		<select id="uniqueID">
+  		  <option selected="selected" disabled="disabled">Unique Identifier</option>
+  		</select>
+  		<select class = "pull-right" multiple="multiple" id="viewingSelection">
+  		  <option disabled="disabled">Fields to view</option>
+  		</select>
+  		<select class = "pull-right" id="sortingStrategy">
+  		  <option disabled="disabled">Sorting Strat</option>
+  		  <option>Random</option>
+  		  <option>Ordered</option>
+  		</select>
+      </div>
+      <input type="button" class="solr-button" value="Import CSV for GT" data-bind="click: importCSV">
+      <div class="inputDiv"><span contenteditable="true" id="gtQueryText">Query Text: Click to edit.</span></div>
+      <input type="button" class="solr-button" value="Submit" id="submitQuestionButton">
+      <div class="answers pull-right" id="answerField">
+      </div>
+      
+      
+    </div>
+   
+    <div role="tabpanel" class="tab-pane" id="settings">Metrics</div>
+  </div>

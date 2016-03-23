@@ -1,0 +1,172 @@
+<div id="plugins/r_r/r_rConfigView" data-vm="plugins/r_r/r_rConfigModel">
+  <h2>Retrieve and Rank Project Configuration</h2>
+  <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+
+    <!-- Bluemix Configuration -->
+    <div class="panel panel-default">
+      <div class="panel-heading" role="tab" id="headingOne">
+        <h4 class="panel-title">
+          <a role="button" data-toggle="collapse" data-parent="#accordion" href="#bluemixConfigurationTab" aria-expanded="true" aria-controls="collapseOne">
+          Bluemix Configuration
+        </a>
+        </h4>
+      </div>
+      <div id="bluemixConfigurationTab" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+        <div class="panel-body">
+          <div class="col-xs-12">
+            <p>
+              Select the Bluemix endpoint and enter your credentials.
+            </p>
+            <form class="form-horizontal">
+              <div class="form-group">
+                <label for="api-endpoint" class="col-xs-3 control-label">Select Endpoint</label>
+                <div class="col-xs-9">
+                  <select name="api-endpoint" id="apiEndpoint">
+                    <option value="api.ng.bluemix.net" selected>US - api.ng.bluemix.net</option>
+                    <option value="api.eu-gb.bluemix.net">EU-GB - api.eu-gb.bluemix.net</option>
+                    <option value="api.au-syd.bluemix.net">AU - api.au-syd.bluemix.net</option>
+                  </select>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="bmemail" class="col-xs-3 control-label">Bluemix IBM ID</label>
+                <div class="col-xs-9">
+                  <input type="email" class="form-control" id="bmemail" placeholder="IBM ID">
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="bmpwd" class="col-xs-3 control-label">Password</label>
+                <div class="col-xs-9">
+                  <input type="password" class="form-control" id="bmpwd" placeholder="Password">
+                </div>
+              </div>
+              <div class="row" style="padding: 30px 0 0 0">
+                <div class="col-xs-12">
+                  <button type="button" class="btn btn-primary pull-right" data-bind="click: validateCredentials">Validate</button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Configure Bluemix Target -->
+    <div class="panel panel-default">
+      <div class="panel-heading" role="tab" id="headingOne">
+        <h4 class="panel-title">
+          <a role="button" data-toggle="collapse" data-parent="#accordion" href="#targetConfigurationTab" aria-expanded="true" aria-controls="collapseOne">
+          Bluemix Target Configuration
+        </a>
+        </h4>
+      </div>
+      <div id="targetConfigurationTab" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+        <div class="panel-body">
+          <div class="col-xs-12">
+            <p>
+              Please select your organization and space
+            </p>
+            <form class="form-horizontal">
+              <div class="form-group">
+                <label for="bmOrg" class="col-xs-4 control-label">Select organization</label>
+                <div class="col-xs-8">
+                  <select name="bmOrg" id="bmOrg" data-bind="event: { change: validateOrg }">
+                    <option value="false" selected>Loading...</option>
+                  </select>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="bmSpace" class="col-xs-4 control-label">Select Space</label>
+                <div class="col-xs-8">
+                  <select name="bmSpace" id="bmSpace" data-bind="event: { change: validateSpace }">
+                    <option value="false" selected>Will load after org selection...</option>
+                  </select>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- R_R Configuraton -->
+    <div class="panel panel-default">
+      <div class="panel-heading" role="tab" id="headingOne">
+        <h4 class="panel-title">
+          <a role="button" data-toggle="collapse" data-parent="#accordion" href="#r_rConfigurationTab" aria-expanded="true" aria-controls="collapseOne">
+          R&R Instance Configuration
+        </a>
+        </h4>
+      </div>
+      <div id="r_rConfigurationTab" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+        <div class="panel-body">
+          <div class="col-xs-12">
+            <p>
+              Use an existing service or create a new one.
+            </p>
+            <form>
+              <div class="form-group">
+                <label for="existingRR">Existing Services</label>
+                <select name="existingRR" id="existingRR">
+                  <option value="false" selected>Loading...<option>
+                </select>
+              </div>
+              <button class="btn btn-primary pull-right" data-bind="click: useR_RService">Use Existing</button>
+            </form>
+            <br>
+            <p>
+              Create a new Retrieve and Rank service.
+            </p>
+            <form>
+              <div class="form-group">
+                <label for="r_rName">New Service Name</label>
+                <input type="text" class="form-control" id="r_rName" placeholder="Service name">
+              </div>
+              <div class="form-group">
+                <label for="plans">Select Service Plan</label>
+                <select name="plans" id="plans">
+                  <option value="false" selected>Loading...</option>
+                </select>
+              </div>
+              <button class="btn btn-primary pull-right" data-bind="click: createR_RService">Create</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Project Configuration -->
+    <div class="panel panel-default">
+      <div class="panel-heading" role="tab" id="headingOne">
+        <h4 class="panel-title">
+          <a role="button" data-toggle="collapse" data-parent="#accordion" href="#projectConfigurationTab" aria-expanded="true" aria-controls="collapseOne">
+          Project Configuration
+        </a>
+        </h4>
+      </div>
+      <div id="projectConfigurationTab" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+        <div class="panel-body">
+          <div>
+            <p>
+              Enter your project's name.
+            </p>
+            <form class="form-horizontal">
+              <div class="form-group">
+                <label for="projectName" class="col-xs-4 control-label">Project Name</label>
+                <div class="col-xs-8">
+                  <input type="text" class="form-control" id="projectName" placeholder="Project Name">
+                </div>
+              </div>
+              <div class="row" style="padding: 30px 0 0 0">
+                <div class="col-xs-12">
+                  <button type="button" class="btn btn-primary pull-right" data-bind="click: validateProject">Create Project</button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>

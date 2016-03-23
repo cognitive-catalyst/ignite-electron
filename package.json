@@ -1,0 +1,24 @@
+{
+  "name": "ignite",
+  "version": "0.0.1",
+  "description": "A general platform to host ignite plugins",
+  "main": "index.js",
+  "scripts": {
+    "start": "electron index.js"
+  },
+  "contributors": [
+    "Chris Madison (http://cmadison.me)",
+    "Andrew Ayres (afayres@us.ibm.com)"           
+  ],
+  "license": "Apache-2.0",
+  "devDependencies": {
+    "electron-prebuilt": "^0.36.2"
+  },
+  "dependencies": {
+    "cloudfoundry-client": "^0.10.0",
+    "mkdirp": "^0.5.1",
+    "nedb": "^1.5.1",
+    "form-data":"latest",
+    "bootstrap-select": "latest"
+  }
+}

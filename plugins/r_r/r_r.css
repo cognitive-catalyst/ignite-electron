@@ -1,0 +1,67 @@
+.panel-heading{
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    line-height: normal;
+    width: 100%;
+    padding-top: 8px;
+}
+
+.solr-button{
+	margin-right: 2px;
+}
+
+.solr-delete-button{
+	position: relative;
+	bottom: 5px;
+	margin-right: 10px;
+	width: 20px;
+}
+
+.small-input-box{
+	width: 20%;
+	margin-right: 10px;
+}
+
+.cluster-size{
+	width: 13%;
+	margin-right: 10px;
+}
+
+.med-input-box{
+	width: 50%;
+	margin-right: 10px;
+}
+
+.small-file{
+	width: 30%;
+	margin-right: 10px;
+}
+
+.train-table-item {
+    width: 50px;
+}
+
+.train-table-text {
+    width: 65%;
+}
+
+.train-table-class{
+
+}
+
+.inputDiv{
+	min-width: 100px;
+	max-width: 300px;
+}
+
+.answers{
+	max-width: 600px;
+	overflow: scroll;
+	max-height: 600px;
+}
+
+.relevance{
+	max-width: 40px;
+	display: inline-block;
+}

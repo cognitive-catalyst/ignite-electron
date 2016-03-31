@@ -335,18 +335,27 @@
 		gtParser.end();
 		var file = fs.createWriteStream('./gtRanker.csv');
 		var count = 0;
-		var header = "true";
-		for(var i = 0; i < gtcsvOutputQ.length; ++i){
-			var header = "true";
-			if (i != 0)
-				header = "false";
-			rrRequests.queryForTraining(clusterId, collectionId, gtcsvOutputQ[i], gtcsvOutputR[i], header, function(res){
+		if(gtcsvOutputQ.length > 1){
+			rrRequests.queryForTraining(clusterId, collectionId, gtcsvOutputQ[0], gtcsvOutputR[0], "true", function(res){
 				file.write(res['RSInput']);
 				++count;
 				if(count == gtcsvOutputQ.length){
-			    	rrRequests.createRanker(name, './gtRanker.csv', function(res){
-			    		refreshRankerList();
-			    	});	
+					rrRequests.createRanker(name, './gtRanker.csv', function(res){
+						refreshRankerList();
+					});	
+				} else {
+					for(var i = 1; i < gtcsvOutputQ.length; ++i){
+						rrRequests.queryForTraining(clusterId, collectionId, gtcsvOutputQ[i], gtcsvOutputR[i], "false", function(res){
+							console.log("processing for features");
+							file.write(res['RSInput']);
+							++count;
+							if(count == gtcsvOutputQ.length){
+								rrRequests.createRanker(name, './gtRanker.csv', function(res){
+									refreshRankerList();
+								});	
+							}
+						})
+					}
 				}
 			})
 		}

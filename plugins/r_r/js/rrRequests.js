@@ -277,8 +277,8 @@ module.exports.rrRequests = function (){
 		}, responseHandler(callback));
 	}
 	
-	this.queryForTraining = function(clusterId, collection, query, relevance, callback){
-		var post_data = "q="+query+"&gt="+relevance+"&generateHeader=true&rows=10&returnRSInput=true&wt=json";
+	this.queryForTraining = function(clusterId, collection, query, relevance, header, callback){
+		var post_data = "q="+query+"&gt="+relevance+"&generateHeader="+header+"&rows=10&returnRSInput=true&wt=json";
 		var req = https.request({
 			host: this.rrHost,
 			path: this.rrPath+'/solr_clusters/'+clusterId+'/solr/'+collection+'/fcselect',

@@ -335,8 +335,12 @@
 		gtParser.end();
 		var file = fs.createWriteStream('./gtRanker.csv');
 		var count = 0;
+		var header = "true";
 		for(var i = 0; i < gtcsvOutputQ.length; ++i){
-			rrRequests.queryForTraining(clusterId, collectionId, gtcsvOutputQ[i], gtcsvOutputR[i], function(res){
+			var header = "true";
+			if (i != 0)
+				header = "false";
+			rrRequests.queryForTraining(clusterId, collectionId, gtcsvOutputQ[i], gtcsvOutputR[i], header, function(res){
 				file.write(res['RSInput']);
 				++count;
 				if(count == gtcsvOutputQ.length){

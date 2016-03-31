@@ -69,7 +69,6 @@ module.exports.rrRequests = function (){
 	}
 	
 	this.getRankerStatus = function(rankerId, callback){
-		console.log(rankerId);
 		return https.get({
 			host: this.rrHost,
 			path: this.rrPath+'/rankers/'+rankerId,
@@ -276,5 +275,20 @@ module.exports.rrRequests = function (){
 				'Authorization':'Basic ' + new Buffer(this.username + ':' + this.password).toString('base64')
 			}
 		}, responseHandler(callback));
+	}
+	
+	this.queryForTraining = function(clusterId, collection, query, relevance, callback){
+		var post_data = "q="+query+"&gt="+relevance+"&generateHeader=true&rows=10&returnRSInput=true&wt=json";
+		var req = https.request({
+			host: this.rrHost,
+			path: this.rrPath+'/solr_clusters/'+clusterId+'/solr/'+collection+'/fcselect',
+			method: 'POST',
+			headers: {
+				'Authorization':'Basic ' + new Buffer(this.username + ':' + this.password).toString('base64'),
+				'Content-Type':'application/x-www-form-urlencoded',
+			}
+		}, responseHandler(callback));
+		req.write(post_data);
+		return req.end();	
 	}
 }

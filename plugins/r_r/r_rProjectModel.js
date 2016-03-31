@@ -2,6 +2,7 @@
 (function() {
   'use strict'
   const $ = window.$
+  const BrowserWindow = require('electron').remote.BrowserWindow;
   const project = require('../../js/project')
   const plugin = require('./plugin')
   const rrReqs = require('./js/rrRequests')
@@ -52,6 +53,14 @@
 	  return list;
   }
   
+  function TextFieldFactory(classString, placeHolder){
+	  var input = document.createElement("input");
+	  input.type = "text";
+	  input.className = classString;
+	  input.placeholder = placeHolder;
+	  return input;
+  }
+  
   function config(configObject){
 	  this.name = configObject;
   }
@@ -70,6 +79,7 @@
     var collectionList = [];
     var rankerList = [];
    	var parser = csv.parse();
+   	var gtParser = csv.parse();
    	var csvStringify = csv.stringify;
    	var trainingCluster = null;
    	var trainingCollection = null;
@@ -80,6 +90,9 @@
    	var currentQuery;
       	
    	var csvOutput = [];
+   	var gtcsvOutputQ = [];
+   	var gtcsvOutputR = [];
+   	
    	parser.on('readable', function(){
    		var record;
    		csvStepper = 0;
@@ -99,6 +112,33 @@
    		submitButton.removeEventListener('click', askQuestion);
    		submitButton.addEventListener('click', startAskingQuestions);
    		submitButton.disabled = false;
+   	});
+   	
+   	gtParser.on('readable', function(){
+   		var record;
+   		csvStepper = 0;
+   		while(record = gtParser.read()){
+   			var relevance = "";
+   			var query = "";
+   			record.forEach(function(entry, index){
+   				if(index == 0)
+   					query = entry;
+   				else if (index == 1)
+   					relevance = entry;
+   				else
+   					relevance = relevance + ","+entry;
+   			});
+   			gtcsvOutputQ.push(query);
+   			gtcsvOutputR.push(relevance);
+   		}
+   	});
+   	
+   	gtParser.on('error', function(err){
+   		console.log(err.message);
+   	});
+   	
+   	gtParser.on('finish', function(){
+   		//write to csv and call ranker
    	});
    	
    	var startAskingQuestions = () => {
@@ -290,10 +330,22 @@
     	});
     }
     
-    var provisionRanker = (name, trainingFile) => {
-    	rrRequests.createRanker(name, trainingFile, function(res){
-    		refreshRankerList();
-    	});
+    var provisionRanker = (name, clusterId, collectionId, trainingFile) => {
+		gtParser.write(trainingFile);
+		gtParser.end();
+		var file = fs.createWriteStream('./gtRanker.csv');
+		var count = 0;
+		for(var i = 0; i < gtcsvOutputQ.length; ++i){
+			rrRequests.queryForTraining(clusterId, collectionId, gtcsvOutputQ[i], gtcsvOutputR[i], function(res){
+				file.write(res['RSInput']);
+				++count;
+				if(count == gtcsvOutputQ.length){
+			    	rrRequests.createRanker(name, './gtRanker.csv', function(res){
+			    		refreshRankerList();
+			    	});	
+				}
+			})
+		}
     }
     
     var deleteCluster = (id, name) => {
@@ -439,9 +491,36 @@
         $('#r_rServicePlanName').text(proj.service.r_r.plan.name)
         rrRequests.setUsername(proj.service.r_r.key.username)
         rrRequests.setPassword(proj.service.r_r.key.password)
+        
+        /*
+        if(!proj.service['dc']){
+        	var dcPanel = document.getElementById("dcPanel-body");
+        	while(dcPanel.firstChild){
+        		dcPanel.removeChild(dcPanel.firstChild);
+        	}
+        	var unTextField = TextFieldFactory("small-input-box form-control", "Service Username")
+        	var pwTextField = TextFieldFactory("small-input-box form-control", "Service Password")
+        	dcPanel.appendChild(unTextField);
+        	dcPanel.appendChild(pwTextField);
+    		dcPanel.appendChild(ButtonFactory("solr-button", "Add Document Conversion", function(){
+    			proj.service['dc'] = {};
+    			proj.service.dc['key'] = {}
+    			proj.service.dc.key['username'] = unTextField.value;
+    			proj.service.dc.key['password'] = pwTextField.value;
+            	while(dcPanel.firstChild){
+            		dcPanel.removeChild(dcPanel.firstChild);
+            	}
+            	project.updateProjectByID(args.id, proj, (err) => {
+            		BrowserWindow.getFocusedWindow().reload(true)
+            	})
+    		}));
+    	} else {
+    		$('#dcServiceKey').text(proj.service.dc.key.username);	
+    	}
+    	*/
         refreshClusterList();
       })
-    }
+    };
     
     self.provisionCluster = () => {
     	if($('#solrClusterName').val() == ""){
@@ -476,11 +555,19 @@
     self.provisionRanker = () => {
     	if($('#solrRankerName').val() == ""){
     		dialog.showMessageBox({message:"First enter a Ranker name", buttons: ["OK"]})
+    	} else if (collectionSelected == null) {
+    		dialog.showMessageBox({message:"Click on the desired collection to train against then try again.", buttons: ["OK"]})
     	} else {
     		dialog.showOpenDialog({
     			filters: [{ name: 'Configs', extensions: ['csv']}]}, 
-    			function (res) {	
-    	    		provisionRanker($('#solrRankerName').val(), res[0]);
+    			function (res) {
+    				fs.readFile(res[0], function(err, data){
+    					if(err)
+    						console.log(err)
+    					else{
+    	    	    		provisionRanker($('#solrRankerName').val(), clusterSelected, collectionSelected, data);	
+    					}
+    				})
     		});
     	}
     }

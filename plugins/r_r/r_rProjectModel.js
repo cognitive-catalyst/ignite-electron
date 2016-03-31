@@ -469,12 +469,15 @@
     	while(statusTag.firstChild){
     		statusTag.removeChild(statusTag.firstChild);
     	}
-    	statusTag.appendChild(ParaFactory("Cluster Name: " + clusterSelected));
-    	statusTag.appendChild(ParaFactory("Collection Name: " + id));
-    	statusTag.appendChild(ButtonFactory("solr-button", "Index Documents", function (){
-    		indexDocuments(clusterSelected, id);
-    	}));
-    	
+		rrRequests.querySolr(clusterSelected, id, "*:*", 0,function(res){
+			console.log(res);
+	    	statusTag.appendChild(ParaFactory("Cluster Name: " + clusterSelected));
+	    	statusTag.appendChild(ParaFactory("Collection Name: " + id));
+	    	statusTag.appendChild(ParaFactory("Total Committed Documents: " + res.response.numFound));
+	    	statusTag.appendChild(ButtonFactory("solr-button", "Index Documents", function (){
+	    		indexDocuments(clusterSelected, id);
+	    	}));
+		});    	
     }
     
     var rankerStatus = (id) => {
@@ -663,7 +666,7 @@
     		var query = document.getElementById("gtQueryText").innerHTML;
     		currentQuery = query;
     		if(trainingRanker == null){
-    			rrRequests.querySolr(trainingCluster, trainingCollection, query, function(res){
+    			rrRequests.querySolr(trainingCluster, trainingCollection, query, 50, function(res){
     				setSelectionField(res);
     				originalAnswer = res.response.docs;
     				displayAnswers();

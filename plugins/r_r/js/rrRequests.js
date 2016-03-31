@@ -257,10 +257,10 @@ module.exports.rrRequests = function (){
 		req.end();
 	}
 	
-	this.querySolr = function (clusterId, collection, query, callback){
+	this.querySolr = function (clusterId, collection, query, rows, callback){
 		return https.get({
 			host: this.rrHost,
-			path: this.rrPath+'/solr_clusters/'+clusterId+'/solr/'+collection+'/select?q='+encodeURIComponent(query)+'&wt=json&rows=50',
+			path: this.rrPath+'/solr_clusters/'+clusterId+'/solr/'+collection+'/select?q='+encodeURIComponent(query)+'&wt=json&rows='+rows,
 			headers: {
 				'Authorization':'Basic ' + new Buffer(this.username + ':' + this.password).toString('base64')
 			}

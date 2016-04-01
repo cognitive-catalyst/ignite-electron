@@ -8,7 +8,7 @@
   },
   "contributors": [
     "Chris Madison (http://cmadison.me)",
-    "Andrew Ayres (afayres@us.ibm.com)"           
+    "Andrew Ayres (afayres@us.ibm.com)"
   ],
   "license": "Apache-2.0",
   "devDependencies": {
@@ -18,7 +18,9 @@
     "cloudfoundry-client": "^0.10.0",
     "mkdirp": "^0.5.1",
     "nedb": "^1.5.1",
-    "form-data":"latest",
-    "bootstrap-select": "latest"
+    "form-data": "latest",
+    "bootstrap-select": "latest",
+    "csv": "~0.4.6",
+    "request": "~2.69.0"
   }
 }
